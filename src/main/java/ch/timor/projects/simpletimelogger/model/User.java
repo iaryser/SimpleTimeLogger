@@ -72,7 +72,7 @@ public final class User {
     }
 
     @Override
-    public final boolean equals(Object object) {
+    public boolean equals(Object object) {
         if (this == object) {
             return true;
         }
@@ -82,7 +82,7 @@ public final class User {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return Objects.hash(this.userName, this.password);
     }
 
