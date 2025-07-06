@@ -3,6 +3,8 @@ package ch.timor.projects.simpletimelogger.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoginPanel extends JPanel {
     private final JLabel titleLabel = new JLabel("Login");
@@ -12,6 +14,7 @@ public class LoginPanel extends JPanel {
     private final JPasswordField passwordField = new JPasswordField(20);
     private final JButton loginButton = new JButton("Login");
     private final JButton registerButton = new JButton("Registrieren");
+    private final JLabel errorLabel = new JLabel();
 
     public LoginPanel() {
         super(new GridBagLayout());
@@ -27,7 +30,7 @@ public class LoginPanel extends JPanel {
         this.add(titleLabel, constraints);
 
         //Username label and form
-        constraints.insets = new Insets(10, 5, 10,5);
+        constraints.insets = new Insets(10, 5, 10, 5);
         constraints.gridwidth = 1;
         constraints.gridy = 1;
         this.add(userLabel, constraints);
@@ -64,6 +67,22 @@ public class LoginPanel extends JPanel {
         passwordLabel.setFont(largerFont);
         loginButton.setFont(largerFont);
         registerButton.setFont(largerFont);
+
+        errorLabel.setForeground(Color.RED);
+        errorLabel.setVisible(false);
+        errorLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        errorLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                errorLabel.setVisible(false);
+            }
+        });
+
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        constraints.gridwidth = 2;
+        constraints.insets = new Insets(10, 5, 10, 5);
+        this.add(errorLabel, constraints);
     }
 
     public void setActionListener(ActionListener listener) {
@@ -79,11 +98,21 @@ public class LoginPanel extends JPanel {
         return this.passwordField.getText();
     }
 
-    public JButton getLoginButton () {
+    public JButton getLoginButton() {
         return this.loginButton;
     }
 
-    public JButton getRegisterButton () {
+    public JButton getRegisterButton() {
         return this.registerButton;
+    }
+
+    public void loginFailure(String message) {
+        errorLabel.setText(message);
+        errorLabel.setVisible(true);
+        userNameField.setText("");
+        passwordField.setText("");
+        userNameField.requestFocusInWindow();
+        revalidate();
+        repaint();
     }
 }

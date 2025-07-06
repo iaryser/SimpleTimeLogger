@@ -1,12 +1,10 @@
 package ch.timor.projects.simpletimelogger.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class UserDataBase {
     private final Map<String, User> userStorage = new HashMap<>();
+    private Collection<UserDataBaseListener> listenerCollection = new ArrayList<>();
 
     public UserDataBase() {
     }
@@ -14,6 +12,7 @@ public class UserDataBase {
     public void addUser(User user) {
         if(!(user == null)) {
             this.userStorage.put(user.getUserName(), user);
+            this.fireRegisterEvent(new RegisterEvent(this, user.getUserName(), user.getPassword()));
         }
     }
 
@@ -41,5 +40,19 @@ public class UserDataBase {
             userCollection.add(user);
         }
         return userCollection;
+    }
+
+    public void addUserDataBaseListener(UserDataBaseListener listener) {
+        this.listenerCollection.add(listener);
+    }
+
+    public void removeUserDataBaseListener(UserDataBaseListener listener) {
+        this.listenerCollection.add(listener);
+    }
+
+    private void fireRegisterEvent(EventObject event) {
+        for(UserDataBaseListener listener: listenerCollection) {
+            listener.handleRegisterEvent(event);
+        }
     }
 }

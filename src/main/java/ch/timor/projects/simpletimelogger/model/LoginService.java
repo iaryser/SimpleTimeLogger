@@ -30,7 +30,7 @@ public class LoginService {
 
         } catch(IllegalArgumentException i) {
             LOG.error("User konnte nicht gefunden werden: Passwort oder Username ist falsch.");
-            fireLoginEvent(new LoginFailureEvent(this, "Username oder Passwort inkorrekt."));
+            fireLoginEvent(new LoginNoUserFoundEvent(this));
             return false;
         }
     }

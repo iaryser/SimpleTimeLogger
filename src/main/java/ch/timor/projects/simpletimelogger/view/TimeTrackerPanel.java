@@ -2,6 +2,7 @@ package ch.timor.projects.simpletimelogger.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class TimeTrackerPanel extends JPanel {
     private final JLabel title = new JLabel("Time Logger");
@@ -89,6 +90,12 @@ public class TimeTrackerPanel extends JPanel {
         this.pauseTimeDisplay.setFont(largerFont);
         this.startPauseButton.setFont(largerFont);
         this.startWorkButton.setFont(largerFont);
+    }
+
+    public void setActionListener(ActionListener listener) {
+        this.quitButton.addActionListener(listener);
+        this.startWorkButton.addActionListener(listener);
+        this.startPauseButton.addActionListener(listener);
     }
 
     public JButton getQuitButton() {
